@@ -1,0 +1,101 @@
+package backtracking;
+
+import java.util.Scanner;
+
+public class n_qeen {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Scanner src = new Scanner(System.in);
+		int row = src.nextInt();
+		int col = src.nextInt();
+		int n = src.nextInt();
+		boolean board[][] = new boolean[row][col];
+
+		n_queen(board, 0, 0, n, "", 0);
+
+	}
+
+	private static void n_queen(boolean[][] board, int row, int col, int N, String ans, int qpsf) {
+
+		if (N == qpsf) {
+			System.out.println(ans);
+			return;
+		}
+
+		if (col == board[0].length) {
+			n_queen(board, row + 1, 0, N, ans, qpsf);
+			return;
+		}
+
+		if (row == board.length) {
+			return;
+		}
+
+		if (isitsafe(board, row, col)) {
+			board[row][col] = true;
+//			System.out.println(row+" "+col);
+			n_queen(board, row, col + 1, N, ans + "(" + row + "-" + col + ")" + "  ", qpsf + 1);
+			board[row][col] = false;
+		} 
+			n_queen(board, row, col + 1, N, ans, qpsf);
+		
+	}
+
+	private static boolean isitsafe(boolean[][] board, int row, int col) {
+		// TODO Auto-generated method stub
+
+		int r = row - 1;
+		int c = col;
+
+		while (r >= 0) {
+
+			if (board[r][c] == true) {
+				return false;
+			}
+
+			r--;
+		}
+
+		int rr = row;
+		int cc = col - 1;
+
+		while (cc >= 0) {
+
+			if (board[rr][cc] == true) {
+				return false;
+			}
+
+			cc--;
+		}
+
+		int rrr = row - 1;
+		int ccc = col - 1;
+
+		while (ccc >= 0 && rrr >= 0) {
+
+			if (board[rrr][ccc] == true) {
+				return false;
+			}
+			rrr--;
+			ccc--;
+		}
+
+		int rrrr = row - 1;
+		int cccc = col + 1;
+
+		while (cccc < board[0].length && rrrr >= 0) {
+
+			if (board[rrrr][cccc] == true) {
+				return false;
+			}
+
+			cccc++;
+			rrrr--;
+		}
+
+		return true;
+	}
+
+}
